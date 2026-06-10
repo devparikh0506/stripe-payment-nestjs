@@ -37,6 +37,11 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
 
+      - name: Upgrade npm for trusted publishing
+        # OIDC publish needs npm >= 11.5.1; Node 22 bundles npm 10.x
+        if: steps.version.outputs.released == 'false'
+        run: npm install -g npm@latest
+
       - name: Install dependencies
         if: steps.version.outputs.released == 'false'
         run: npm ci
@@ -46,12 +51,12 @@ jobs:
         run: npm test --workspace packages/template
 
       - name: Publish
-        # prepack builds the CLI and syncs the template automatically
+        # Authenticates via OIDC trusted publishing (configured on
+        # npmjs.com for this repo + workflow) — no token secret needed.
+        # prepack builds the CLI and syncs the template automatically.
         if: steps.version.outputs.released == 'false'
         run: npm publish --access public --provenance
         working-directory: packages/cli
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Tag the release
         # Tag only after a successful publish, so a failed publish can be
