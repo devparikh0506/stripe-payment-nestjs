@@ -5,6 +5,10 @@
   "keywords": ["stripe", "nestjs", "payments", "scaffold", "create-app"],
   "license": "MIT",
   "author": "Dev Parikh",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devparikh0506/stripe-payment-nestjs.git"
+  },
   "bin": {
     "create-stripe-nest-app": "dist/index.js"
   },
