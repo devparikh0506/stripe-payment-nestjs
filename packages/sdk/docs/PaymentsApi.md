@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 |[**paymentsRefund**](#paymentsrefund) | **POST** /api/v1/payments/{id}/refund | Refund a succeeded payment|
 
 # **paymentsCancel**
-> paymentsCancel()
+> Payment paymentsCancel()
 
 
 ### Example
@@ -41,7 +41,7 @@ const { status, data } = await apiInstance.paymentsCancel(
 
 ### Return type
 
-void (empty response body)
+**Payment**
 
 ### Authorization
 
@@ -50,7 +50,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -61,7 +61,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **paymentsCreate**
-> paymentsCreate(createPaymentDto)
+> CreatePaymentResult paymentsCreate(createPaymentDto)
 
 
 ### Example
@@ -92,7 +92,7 @@ const { status, data } = await apiInstance.paymentsCreate(
 
 ### Return type
 
-void (empty response body)
+**CreatePaymentResult**
 
 ### Authorization
 
@@ -101,7 +101,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -112,7 +112,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **paymentsGet**
-> paymentsGet()
+> Payment paymentsGet()
 
 
 ### Example
@@ -142,7 +142,7 @@ const { status, data } = await apiInstance.paymentsGet(
 
 ### Return type
 
-void (empty response body)
+**Payment**
 
 ### Authorization
 
@@ -151,7 +151,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -162,7 +162,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **paymentsList**
-> paymentsList()
+> PaymentList paymentsList()
 
 
 ### Example
@@ -176,10 +176,14 @@ import {
 const configuration = new Configuration();
 const apiInstance = new PaymentsApi(configuration);
 
-let customerId: string; // (default to undefined)
+let customerId: string; // (optional) (default to undefined)
+let limit: any; // (optional) (default to undefined)
+let page: any; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.paymentsList(
-    customerId
+    customerId,
+    limit,
+    page
 );
 ```
 
@@ -187,12 +191,14 @@ const { status, data } = await apiInstance.paymentsList(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **customerId** | [**string**] |  | defaults to undefined|
+| **customerId** | [**string**] |  | (optional) defaults to undefined|
+| **limit** | **any** |  | (optional) defaults to undefined|
+| **page** | **any** |  | (optional) defaults to undefined|
 
 
 ### Return type
 
-void (empty response body)
+**PaymentList**
 
 ### Authorization
 
@@ -201,7 +207,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -212,7 +218,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **paymentsRefund**
-> paymentsRefund()
+> Payment paymentsRefund()
 
 
 ### Example
@@ -242,7 +248,7 @@ const { status, data } = await apiInstance.paymentsRefund(
 
 ### Return type
 
-void (empty response body)
+**Payment**
 
 ### Authorization
 
@@ -251,7 +257,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details

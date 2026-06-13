@@ -28,6 +28,7 @@ export const WebhooksApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * 
+         * @summary Verify → dedup → enqueue → 200. No business logic here: Stripe retries anything that doesn\'t get a 2xx within ~10s, so the heavy work happens in the background processor.
          * @param {string} stripeSignature 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -71,6 +72,7 @@ export const WebhooksApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Verify → dedup → enqueue → 200. No business logic here: Stripe retries anything that doesn\'t get a 2xx within ~10s, so the heavy work happens in the background processor.
          * @param {string} stripeSignature 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -92,6 +94,7 @@ export const WebhooksApiFactory = function (configuration?: Configuration, baseP
     return {
         /**
          * 
+         * @summary Verify → dedup → enqueue → 200. No business logic here: Stripe retries anything that doesn\'t get a 2xx within ~10s, so the heavy work happens in the background processor.
          * @param {WebhooksApiWebhooksHandleStripeWebhookRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -108,6 +111,7 @@ export const WebhooksApiFactory = function (configuration?: Configuration, baseP
 export interface WebhooksApiInterface {
     /**
      * 
+     * @summary Verify → dedup → enqueue → 200. No business logic here: Stripe retries anything that doesn\'t get a 2xx within ~10s, so the heavy work happens in the background processor.
      * @param {WebhooksApiWebhooksHandleStripeWebhookRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -129,6 +133,7 @@ export interface WebhooksApiWebhooksHandleStripeWebhookRequest {
 export class WebhooksApi extends BaseAPI implements WebhooksApiInterface {
     /**
      * 
+     * @summary Verify → dedup → enqueue → 200. No business logic here: Stripe retries anything that doesn\'t get a 2xx within ~10s, so the heavy work happens in the background processor.
      * @param {WebhooksApiWebhooksHandleStripeWebhookRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

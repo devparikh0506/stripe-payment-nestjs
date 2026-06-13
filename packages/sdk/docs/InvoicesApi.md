@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 |[**invoicesList**](#invoiceslist) | **GET** /api/v1/invoices | List invoices, optionally by customer|
 
 # **invoicesGet**
-> invoicesGet()
+> Invoice invoicesGet()
 
 
 ### Example
@@ -38,7 +38,7 @@ const { status, data } = await apiInstance.invoicesGet(
 
 ### Return type
 
-void (empty response body)
+**Invoice**
 
 ### Authorization
 
@@ -47,7 +47,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -58,7 +58,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **invoicesList**
-> invoicesList()
+> InvoiceList invoicesList()
 
 
 ### Example
@@ -72,10 +72,14 @@ import {
 const configuration = new Configuration();
 const apiInstance = new InvoicesApi(configuration);
 
-let customerId: string; // (default to undefined)
+let customerId: string; // (optional) (default to undefined)
+let limit: any; // (optional) (default to undefined)
+let page: any; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.invoicesList(
-    customerId
+    customerId,
+    limit,
+    page
 );
 ```
 
@@ -83,12 +87,14 @@ const { status, data } = await apiInstance.invoicesList(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **customerId** | [**string**] |  | defaults to undefined|
+| **customerId** | [**string**] |  | (optional) defaults to undefined|
+| **limit** | **any** |  | (optional) defaults to undefined|
+| **page** | **any** |  | (optional) defaults to undefined|
 
 
 ### Return type
 
-void (empty response body)
+**InvoiceList**
 
 ### Authorization
 
@@ -97,7 +103,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details

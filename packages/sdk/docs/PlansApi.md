@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost*
 |[**plansList**](#planslist) | **GET** /api/v1/plans | List plans|
 
 # **plansArchive**
-> plansArchive()
+> Plan plansArchive()
 
 
 ### Example
@@ -40,7 +40,7 @@ const { status, data } = await apiInstance.plansArchive(
 
 ### Return type
 
-void (empty response body)
+**Plan**
 
 ### Authorization
 
@@ -49,7 +49,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -60,7 +60,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **plansCreate**
-> plansCreate(createPlanDto)
+> Plan plansCreate(createPlanDto)
 
 
 ### Example
@@ -91,7 +91,7 @@ const { status, data } = await apiInstance.plansCreate(
 
 ### Return type
 
-void (empty response body)
+**Plan**
 
 ### Authorization
 
@@ -100,7 +100,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -111,7 +111,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **plansGet**
-> plansGet()
+> Plan plansGet()
 
 
 ### Example
@@ -141,7 +141,7 @@ const { status, data } = await apiInstance.plansGet(
 
 ### Return type
 
-void (empty response body)
+**Plan**
 
 ### Authorization
 
@@ -150,7 +150,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -161,7 +161,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **plansList**
-> plansList()
+> Array<Plan> plansList()
 
 
 ### Example
@@ -175,7 +175,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new PlansApi(configuration);
 
-let activeOnly: string; // (default to undefined)
+let activeOnly: string; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.plansList(
     activeOnly
@@ -186,12 +186,12 @@ const { status, data } = await apiInstance.plansList(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **activeOnly** | [**string**] |  | defaults to undefined|
+| **activeOnly** | [**string**] |  | (optional) defaults to undefined|
 
 
 ### Return type
 
-void (empty response body)
+**Array<Plan>**
 
 ### Authorization
 
@@ -200,7 +200,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details

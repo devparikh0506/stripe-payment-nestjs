@@ -23,6 +23,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
 import type { CreatePlanDto } from '../models';
+// @ts-ignore
+import type { Plan } from '../models';
 /**
  * PlansApi - axios parameter creator
  */
@@ -54,6 +56,7 @@ export const PlansApiAxiosParamCreator = function (configuration?: Configuration
             // authentication x-api-key required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -90,6 +93,7 @@ export const PlansApiAxiosParamCreator = function (configuration?: Configuration
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -127,6 +131,7 @@ export const PlansApiAxiosParamCreator = function (configuration?: Configuration
             // authentication x-api-key required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -140,13 +145,11 @@ export const PlansApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary List plans
-         * @param {string} activeOnly 
+         * @param {string} [activeOnly] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        plansList: async (activeOnly: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'activeOnly' is not null or undefined
-            assertParamExists('plansList', 'activeOnly', activeOnly)
+        plansList: async (activeOnly?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/plans`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -166,6 +169,7 @@ export const PlansApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['activeOnly'] = activeOnly;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -192,7 +196,7 @@ export const PlansApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async plansArchive(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async plansArchive(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Plan>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.plansArchive(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PlansApi.plansArchive']?.[localVarOperationServerIndex]?.url;
@@ -205,7 +209,7 @@ export const PlansApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async plansCreate(createPlanDto: CreatePlanDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async plansCreate(createPlanDto: CreatePlanDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Plan>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.plansCreate(createPlanDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PlansApi.plansCreate']?.[localVarOperationServerIndex]?.url;
@@ -218,7 +222,7 @@ export const PlansApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async plansGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async plansGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Plan>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.plansGet(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PlansApi.plansGet']?.[localVarOperationServerIndex]?.url;
@@ -227,11 +231,11 @@ export const PlansApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary List plans
-         * @param {string} activeOnly 
+         * @param {string} [activeOnly] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async plansList(activeOnly: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async plansList(activeOnly?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Plan>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.plansList(activeOnly, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PlansApi.plansList']?.[localVarOperationServerIndex]?.url;
@@ -253,7 +257,7 @@ export const PlansApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        plansArchive(requestParameters: PlansApiPlansArchiveRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        plansArchive(requestParameters: PlansApiPlansArchiveRequest, options?: RawAxiosRequestConfig): AxiosPromise<Plan> {
             return localVarFp.plansArchive(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -263,7 +267,7 @@ export const PlansApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        plansCreate(requestParameters: PlansApiPlansCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        plansCreate(requestParameters: PlansApiPlansCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Plan> {
             return localVarFp.plansCreate(requestParameters.createPlanDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -273,7 +277,7 @@ export const PlansApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        plansGet(requestParameters: PlansApiPlansGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        plansGet(requestParameters: PlansApiPlansGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Plan> {
             return localVarFp.plansGet(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -283,7 +287,7 @@ export const PlansApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        plansList(requestParameters: PlansApiPlansListRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        plansList(requestParameters: PlansApiPlansListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Plan>> {
             return localVarFp.plansList(requestParameters.activeOnly, options).then((request) => request(axios, basePath));
         },
     };
@@ -300,7 +304,7 @@ export interface PlansApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    plansArchive(requestParameters: PlansApiPlansArchiveRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    plansArchive(requestParameters: PlansApiPlansArchiveRequest, options?: RawAxiosRequestConfig): AxiosPromise<Plan>;
 
     /**
      * 
@@ -309,7 +313,7 @@ export interface PlansApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    plansCreate(requestParameters: PlansApiPlansCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    plansCreate(requestParameters: PlansApiPlansCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Plan>;
 
     /**
      * 
@@ -318,7 +322,7 @@ export interface PlansApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    plansGet(requestParameters: PlansApiPlansGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    plansGet(requestParameters: PlansApiPlansGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Plan>;
 
     /**
      * 
@@ -327,7 +331,7 @@ export interface PlansApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    plansList(requestParameters: PlansApiPlansListRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    plansList(requestParameters?: PlansApiPlansListRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<Plan>>;
 
 }
 
@@ -356,7 +360,7 @@ export interface PlansApiPlansGetRequest {
  * Request parameters for plansList operation in PlansApi.
  */
 export interface PlansApiPlansListRequest {
-    readonly activeOnly: string
+    readonly activeOnly?: string
 }
 
 /**
@@ -403,7 +407,7 @@ export class PlansApi extends BaseAPI implements PlansApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public plansList(requestParameters: PlansApiPlansListRequest, options?: RawAxiosRequestConfig) {
+    public plansList(requestParameters: PlansApiPlansListRequest = {}, options?: RawAxiosRequestConfig) {
         return PlansApiFp(this.configuration).plansList(requestParameters.activeOnly, options).then((request) => request(this.axios, this.basePath));
     }
 }
