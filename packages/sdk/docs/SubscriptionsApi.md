@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost*
 |[**subscriptionsList**](#subscriptionslist) | **GET** /api/v1/subscriptions | List subscriptions, optionally by customer|
 
 # **subscriptionsCancel**
-> subscriptionsCancel()
+> Subscription subscriptionsCancel()
 
 
 ### Example
@@ -40,7 +40,7 @@ const { status, data } = await apiInstance.subscriptionsCancel(
 
 ### Return type
 
-void (empty response body)
+**Subscription**
 
 ### Authorization
 
@@ -49,7 +49,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -60,7 +60,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **subscriptionsCreate**
-> subscriptionsCreate(createSubscriptionDto)
+> CreateSubscriptionResult subscriptionsCreate(createSubscriptionDto)
 
 
 ### Example
@@ -91,7 +91,7 @@ const { status, data } = await apiInstance.subscriptionsCreate(
 
 ### Return type
 
-void (empty response body)
+**CreateSubscriptionResult**
 
 ### Authorization
 
@@ -100,7 +100,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -111,7 +111,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **subscriptionsGet**
-> subscriptionsGet()
+> Subscription subscriptionsGet()
 
 
 ### Example
@@ -141,7 +141,7 @@ const { status, data } = await apiInstance.subscriptionsGet(
 
 ### Return type
 
-void (empty response body)
+**Subscription**
 
 ### Authorization
 
@@ -150,7 +150,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -161,7 +161,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **subscriptionsList**
-> subscriptionsList()
+> SubscriptionList subscriptionsList()
 
 
 ### Example
@@ -175,10 +175,14 @@ import {
 const configuration = new Configuration();
 const apiInstance = new SubscriptionsApi(configuration);
 
-let customerId: string; // (default to undefined)
+let customerId: string; // (optional) (default to undefined)
+let limit: any; // (optional) (default to undefined)
+let page: any; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.subscriptionsList(
-    customerId
+    customerId,
+    limit,
+    page
 );
 ```
 
@@ -186,12 +190,14 @@ const { status, data } = await apiInstance.subscriptionsList(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **customerId** | [**string**] |  | defaults to undefined|
+| **customerId** | [**string**] |  | (optional) defaults to undefined|
+| **limit** | **any** |  | (optional) defaults to undefined|
+| **page** | **any** |  | (optional) defaults to undefined|
 
 
 ### Return type
 
-void (empty response body)
+**SubscriptionList**
 
 ### Authorization
 
@@ -200,7 +206,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details

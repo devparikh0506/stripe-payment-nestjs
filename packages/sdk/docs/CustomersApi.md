@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 |[**customersUpdate**](#customersupdate) | **PATCH** /api/v1/customers/{id} | Update a customer|
 
 # **customersCreate**
-> customersCreate(createCustomerDto)
+> Customer customersCreate(createCustomerDto)
 
 
 ### Example
@@ -42,7 +42,7 @@ const { status, data } = await apiInstance.customersCreate(
 
 ### Return type
 
-void (empty response body)
+**Customer**
 
 ### Authorization
 
@@ -51,7 +51,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -62,7 +62,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **customersGet**
-> customersGet()
+> Customer customersGet()
 
 
 ### Example
@@ -92,7 +92,7 @@ const { status, data } = await apiInstance.customersGet(
 
 ### Return type
 
-void (empty response body)
+**Customer**
 
 ### Authorization
 
@@ -101,7 +101,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -112,7 +112,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **customersList**
-> customersList()
+> CustomerList customersList()
 
 
 ### Example
@@ -126,16 +126,26 @@ import {
 const configuration = new Configuration();
 const apiInstance = new CustomersApi(configuration);
 
-const { status, data } = await apiInstance.customersList();
+let limit: any; // (optional) (default to undefined)
+let page: any; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.customersList(
+    limit,
+    page
+);
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **limit** | **any** |  | (optional) defaults to undefined|
+| **page** | **any** |  | (optional) defaults to undefined|
 
 
 ### Return type
 
-void (empty response body)
+**CustomerList**
 
 ### Authorization
 
@@ -144,7 +154,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
@@ -205,7 +215,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **customersUpdate**
-> customersUpdate(updateCustomerDto)
+> Customer customersUpdate(updateCustomerDto)
 
 
 ### Example
@@ -239,7 +249,7 @@ const { status, data } = await apiInstance.customersUpdate(
 
 ### Return type
 
-void (empty response body)
+**Customer**
 
 ### Authorization
 
@@ -248,7 +258,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details

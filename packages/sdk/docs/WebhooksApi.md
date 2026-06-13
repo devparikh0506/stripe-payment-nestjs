@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**webhooksHandleStripeWebhook**](#webhookshandlestripewebhook) | **POST** /webhooks/stripe | |
+|[**webhooksHandleStripeWebhook**](#webhookshandlestripewebhook) | **POST** /webhooks/stripe | Verify → dedup → enqueue → 200. No business logic here: Stripe retries anything that doesn\&#39;t get a 2xx within ~10s, so the heavy work happens in the background processor.|
 
 # **webhooksHandleStripeWebhook**
 > webhooksHandleStripeWebhook()

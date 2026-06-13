@@ -21,6 +21,10 @@ import globalAxios from 'axios';
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded } from '../common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
+// @ts-ignore
+import type { Invoice } from '../models';
+// @ts-ignore
+import type { InvoiceList } from '../models';
 /**
  * InvoicesApi - axios parameter creator
  */
@@ -52,6 +56,7 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
             // authentication x-api-key required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -65,13 +70,13 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary List invoices, optionally by customer
-         * @param {string} customerId 
+         * @param {string} [customerId] 
+         * @param {any} [limit] 
+         * @param {any} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        invoicesList: async (customerId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'customerId' is not null or undefined
-            assertParamExists('invoicesList', 'customerId', customerId)
+        invoicesList: async (customerId?: string, limit?: any, page?: any, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/invoices`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -91,6 +96,19 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['customerId'] = customerId;
             }
 
+            if (limit !== undefined) {
+                for (const [key, value] of Object.entries(limit)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+            if (page !== undefined) {
+                for (const [key, value] of Object.entries(page)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -117,7 +135,7 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async invoicesGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async invoicesGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Invoice>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.invoicesGet(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['InvoicesApi.invoicesGet']?.[localVarOperationServerIndex]?.url;
@@ -126,12 +144,14 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary List invoices, optionally by customer
-         * @param {string} customerId 
+         * @param {string} [customerId] 
+         * @param {any} [limit] 
+         * @param {any} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async invoicesList(customerId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.invoicesList(customerId, options);
+        async invoicesList(customerId?: string, limit?: any, page?: any, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvoiceList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.invoicesList(customerId, limit, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['InvoicesApi.invoicesList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -152,7 +172,7 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        invoicesGet(requestParameters: InvoicesApiInvoicesGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        invoicesGet(requestParameters: InvoicesApiInvoicesGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Invoice> {
             return localVarFp.invoicesGet(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -162,8 +182,8 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        invoicesList(requestParameters: InvoicesApiInvoicesListRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.invoicesList(requestParameters.customerId, options).then((request) => request(axios, basePath));
+        invoicesList(requestParameters: InvoicesApiInvoicesListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<InvoiceList> {
+            return localVarFp.invoicesList(requestParameters.customerId, requestParameters.limit, requestParameters.page, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -179,7 +199,7 @@ export interface InvoicesApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    invoicesGet(requestParameters: InvoicesApiInvoicesGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    invoicesGet(requestParameters: InvoicesApiInvoicesGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Invoice>;
 
     /**
      * 
@@ -188,7 +208,7 @@ export interface InvoicesApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    invoicesList(requestParameters: InvoicesApiInvoicesListRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    invoicesList(requestParameters?: InvoicesApiInvoicesListRequest, options?: RawAxiosRequestConfig): AxiosPromise<InvoiceList>;
 
 }
 
@@ -203,7 +223,11 @@ export interface InvoicesApiInvoicesGetRequest {
  * Request parameters for invoicesList operation in InvoicesApi.
  */
 export interface InvoicesApiInvoicesListRequest {
-    readonly customerId: string
+    readonly customerId?: string
+
+    readonly limit?: any
+
+    readonly page?: any
 }
 
 /**
@@ -228,8 +252,8 @@ export class InvoicesApi extends BaseAPI implements InvoicesApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public invoicesList(requestParameters: InvoicesApiInvoicesListRequest, options?: RawAxiosRequestConfig) {
-        return InvoicesApiFp(this.configuration).invoicesList(requestParameters.customerId, options).then((request) => request(this.axios, this.basePath));
+    public invoicesList(requestParameters: InvoicesApiInvoicesListRequest = {}, options?: RawAxiosRequestConfig) {
+        return InvoicesApiFp(this.configuration).invoicesList(requestParameters.customerId, requestParameters.limit, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

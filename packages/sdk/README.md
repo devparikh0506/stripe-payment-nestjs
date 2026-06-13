@@ -80,7 +80,7 @@ await customers.customersCreate({
   createCustomerDto: { email: 'jane@acme.com', name: 'Jane', phone: '+15551234567' },
 });
 
-await customers.customersList();                                  // list all
+await customers.customersList({ page: 1, limit: 20 });           // paginated
 await customers.customersGet({ id });
 await customers.customersUpdate({ id, updateCustomerDto: { name: 'Jane D.' } });
 await customers.customersRemove({ id });
@@ -171,12 +171,18 @@ Request models: [CreateCustomerDto](https://github.com/devparikh0506/stripe-paym
 
 The `docs/` folder is regenerated from the OpenAPI spec on every build, so it always matches the live API.
 
-## Known limitations
+## Type safety
 
-These stem from missing annotations in the service's OpenAPI spec and will be resolved as the service adds them:
+Both requests **and** responses are fully typed. `customersCreate({ createCustomerDto })` checks the body, and `res.data` comes back as the real shape — `Customer`, `CustomerList`, `CreatePaymentResult`, `Array<Plan>`, and so on — no casting required:
 
-- **Responses are untyped** — `response.data` is currently `void`/untyped because endpoints don't declare `@ApiResponse` types. Requests are fully typed; cast the response if you need a shape today.
-- **List endpoints take no typed query params** — pagination/filter params aren't in the spec yet; pass them via `baseOptions.params` if needed.
+```ts
+const { data: customer } = await customers.customersGet({ id });
+customer.stripeCustomerId; // ✅ typed as string
+
+const { data: page } = await customers.customersList({ page: 1, limit: 20 });
+page.total;                // ✅ typed as number
+page.data[0].email;        // ✅ typed as string
+```
 
 ## Regenerating
 

@@ -23,6 +23,12 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
 import type { CreatePaymentDto } from '../models';
+// @ts-ignore
+import type { CreatePaymentResult } from '../models';
+// @ts-ignore
+import type { Payment } from '../models';
+// @ts-ignore
+import type { PaymentList } from '../models';
 /**
  * PaymentsApi - axios parameter creator
  */
@@ -54,6 +60,7 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
             // authentication x-api-key required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -90,6 +97,7 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -127,6 +135,7 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
             // authentication x-api-key required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -140,13 +149,13 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary List payments, optionally by customer
-         * @param {string} customerId 
+         * @param {string} [customerId] 
+         * @param {any} [limit] 
+         * @param {any} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        paymentsList: async (customerId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'customerId' is not null or undefined
-            assertParamExists('paymentsList', 'customerId', customerId)
+        paymentsList: async (customerId?: string, limit?: any, page?: any, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/payments`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -166,6 +175,19 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['customerId'] = customerId;
             }
 
+            if (limit !== undefined) {
+                for (const [key, value] of Object.entries(limit)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+            if (page !== undefined) {
+                for (const [key, value] of Object.entries(page)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -202,6 +224,7 @@ export const PaymentsApiAxiosParamCreator = function (configuration?: Configurat
             // authentication x-api-key required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -228,7 +251,7 @@ export const PaymentsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async paymentsCancel(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async paymentsCancel(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Payment>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsCancel(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PaymentsApi.paymentsCancel']?.[localVarOperationServerIndex]?.url;
@@ -241,7 +264,7 @@ export const PaymentsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async paymentsCreate(createPaymentDto: CreatePaymentDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async paymentsCreate(createPaymentDto: CreatePaymentDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentResult>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsCreate(createPaymentDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PaymentsApi.paymentsCreate']?.[localVarOperationServerIndex]?.url;
@@ -254,7 +277,7 @@ export const PaymentsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async paymentsGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async paymentsGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Payment>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsGet(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PaymentsApi.paymentsGet']?.[localVarOperationServerIndex]?.url;
@@ -263,12 +286,14 @@ export const PaymentsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary List payments, optionally by customer
-         * @param {string} customerId 
+         * @param {string} [customerId] 
+         * @param {any} [limit] 
+         * @param {any} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async paymentsList(customerId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsList(customerId, options);
+        async paymentsList(customerId?: string, limit?: any, page?: any, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsList(customerId, limit, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PaymentsApi.paymentsList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -280,7 +305,7 @@ export const PaymentsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async paymentsRefund(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async paymentsRefund(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Payment>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.paymentsRefund(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PaymentsApi.paymentsRefund']?.[localVarOperationServerIndex]?.url;
@@ -302,7 +327,7 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        paymentsCancel(requestParameters: PaymentsApiPaymentsCancelRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        paymentsCancel(requestParameters: PaymentsApiPaymentsCancelRequest, options?: RawAxiosRequestConfig): AxiosPromise<Payment> {
             return localVarFp.paymentsCancel(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -312,7 +337,7 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        paymentsCreate(requestParameters: PaymentsApiPaymentsCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        paymentsCreate(requestParameters: PaymentsApiPaymentsCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<CreatePaymentResult> {
             return localVarFp.paymentsCreate(requestParameters.createPaymentDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -322,7 +347,7 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        paymentsGet(requestParameters: PaymentsApiPaymentsGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        paymentsGet(requestParameters: PaymentsApiPaymentsGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Payment> {
             return localVarFp.paymentsGet(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -332,8 +357,8 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        paymentsList(requestParameters: PaymentsApiPaymentsListRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.paymentsList(requestParameters.customerId, options).then((request) => request(axios, basePath));
+        paymentsList(requestParameters: PaymentsApiPaymentsListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaymentList> {
+            return localVarFp.paymentsList(requestParameters.customerId, requestParameters.limit, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -342,7 +367,7 @@ export const PaymentsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        paymentsRefund(requestParameters: PaymentsApiPaymentsRefundRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        paymentsRefund(requestParameters: PaymentsApiPaymentsRefundRequest, options?: RawAxiosRequestConfig): AxiosPromise<Payment> {
             return localVarFp.paymentsRefund(requestParameters.id, options).then((request) => request(axios, basePath));
         },
     };
@@ -359,7 +384,7 @@ export interface PaymentsApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    paymentsCancel(requestParameters: PaymentsApiPaymentsCancelRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    paymentsCancel(requestParameters: PaymentsApiPaymentsCancelRequest, options?: RawAxiosRequestConfig): AxiosPromise<Payment>;
 
     /**
      * 
@@ -368,7 +393,7 @@ export interface PaymentsApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    paymentsCreate(requestParameters: PaymentsApiPaymentsCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    paymentsCreate(requestParameters: PaymentsApiPaymentsCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<CreatePaymentResult>;
 
     /**
      * 
@@ -377,7 +402,7 @@ export interface PaymentsApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    paymentsGet(requestParameters: PaymentsApiPaymentsGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    paymentsGet(requestParameters: PaymentsApiPaymentsGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Payment>;
 
     /**
      * 
@@ -386,7 +411,7 @@ export interface PaymentsApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    paymentsList(requestParameters: PaymentsApiPaymentsListRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    paymentsList(requestParameters?: PaymentsApiPaymentsListRequest, options?: RawAxiosRequestConfig): AxiosPromise<PaymentList>;
 
     /**
      * 
@@ -395,7 +420,7 @@ export interface PaymentsApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    paymentsRefund(requestParameters: PaymentsApiPaymentsRefundRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    paymentsRefund(requestParameters: PaymentsApiPaymentsRefundRequest, options?: RawAxiosRequestConfig): AxiosPromise<Payment>;
 
 }
 
@@ -424,7 +449,11 @@ export interface PaymentsApiPaymentsGetRequest {
  * Request parameters for paymentsList operation in PaymentsApi.
  */
 export interface PaymentsApiPaymentsListRequest {
-    readonly customerId: string
+    readonly customerId?: string
+
+    readonly limit?: any
+
+    readonly page?: any
 }
 
 /**
@@ -478,8 +507,8 @@ export class PaymentsApi extends BaseAPI implements PaymentsApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public paymentsList(requestParameters: PaymentsApiPaymentsListRequest, options?: RawAxiosRequestConfig) {
-        return PaymentsApiFp(this.configuration).paymentsList(requestParameters.customerId, options).then((request) => request(this.axios, this.basePath));
+    public paymentsList(requestParameters: PaymentsApiPaymentsListRequest = {}, options?: RawAxiosRequestConfig) {
+        return PaymentsApiFp(this.configuration).paymentsList(requestParameters.customerId, requestParameters.limit, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

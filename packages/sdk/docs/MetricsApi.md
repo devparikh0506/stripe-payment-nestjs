@@ -7,7 +7,7 @@ All URIs are relative to *http://localhost*
 |[**metricsMetrics**](#metricsmetrics) | **GET** /metrics | |
 
 # **metricsMetrics**
-> metricsMetrics()
+> string metricsMetrics()
 
 
 ### Example
@@ -30,7 +30,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-void (empty response body)
+**string**
 
 ### Authorization
 
@@ -39,7 +39,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details

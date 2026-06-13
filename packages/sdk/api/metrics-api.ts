@@ -44,6 +44,7 @@ export const MetricsApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -68,7 +69,7 @@ export const MetricsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async metricsMetrics(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async metricsMetrics(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.metricsMetrics(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MetricsApi.metricsMetrics']?.[localVarOperationServerIndex]?.url;
@@ -88,7 +89,7 @@ export const MetricsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        metricsMetrics(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        metricsMetrics(options?: RawAxiosRequestConfig): AxiosPromise<string> {
             return localVarFp.metricsMetrics(options).then((request) => request(axios, basePath));
         },
     };
@@ -103,7 +104,7 @@ export interface MetricsApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    metricsMetrics(options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    metricsMetrics(options?: RawAxiosRequestConfig): AxiosPromise<string>;
 
 }
 

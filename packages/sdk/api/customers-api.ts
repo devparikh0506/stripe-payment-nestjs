@@ -24,6 +24,10 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 // @ts-ignore
 import type { CreateCustomerDto } from '../models';
 // @ts-ignore
+import type { Customer } from '../models';
+// @ts-ignore
+import type { CustomerList } from '../models';
+// @ts-ignore
 import type { UpdateCustomerDto } from '../models';
 /**
  * CustomersApi - axios parameter creator
@@ -56,6 +60,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -93,6 +98,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
             // authentication x-api-key required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -106,10 +112,12 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @summary List customers
+         * @param {any} [limit] 
+         * @param {any} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customersList: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        customersList: async (limit?: any, page?: any, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/customers`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -125,6 +133,19 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
             // authentication x-api-key required
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
+            if (limit !== undefined) {
+                for (const [key, value] of Object.entries(limit)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+            if (page !== undefined) {
+                for (const [key, value] of Object.entries(page)) {
+                    localVarQueryParameter[key] = value;
+                }
+            }
+
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -201,6 +222,7 @@ export const CustomersApiAxiosParamCreator = function (configuration?: Configura
             await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Accept'] = 'application/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -228,7 +250,7 @@ export const CustomersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async customersCreate(createCustomerDto: CreateCustomerDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async customersCreate(createCustomerDto: CreateCustomerDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Customer>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.customersCreate(createCustomerDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CustomersApi.customersCreate']?.[localVarOperationServerIndex]?.url;
@@ -241,7 +263,7 @@ export const CustomersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async customersGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async customersGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Customer>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.customersGet(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CustomersApi.customersGet']?.[localVarOperationServerIndex]?.url;
@@ -250,11 +272,13 @@ export const CustomersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary List customers
+         * @param {any} [limit] 
+         * @param {any} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async customersList(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.customersList(options);
+        async customersList(limit?: any, page?: any, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.customersList(limit, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CustomersApi.customersList']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -280,7 +304,7 @@ export const CustomersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async customersUpdate(id: string, updateCustomerDto: UpdateCustomerDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async customersUpdate(id: string, updateCustomerDto: UpdateCustomerDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Customer>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.customersUpdate(id, updateCustomerDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CustomersApi.customersUpdate']?.[localVarOperationServerIndex]?.url;
@@ -302,7 +326,7 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customersCreate(requestParameters: CustomersApiCustomersCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        customersCreate(requestParameters: CustomersApiCustomersCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Customer> {
             return localVarFp.customersCreate(requestParameters.createCustomerDto, options).then((request) => request(axios, basePath));
         },
         /**
@@ -312,17 +336,18 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customersGet(requestParameters: CustomersApiCustomersGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        customersGet(requestParameters: CustomersApiCustomersGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Customer> {
             return localVarFp.customersGet(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary List customers
+         * @param {CustomersApiCustomersListRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customersList(options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.customersList(options).then((request) => request(axios, basePath));
+        customersList(requestParameters: CustomersApiCustomersListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<CustomerList> {
+            return localVarFp.customersList(requestParameters.limit, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -341,7 +366,7 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        customersUpdate(requestParameters: CustomersApiCustomersUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        customersUpdate(requestParameters: CustomersApiCustomersUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Customer> {
             return localVarFp.customersUpdate(requestParameters.id, requestParameters.updateCustomerDto, options).then((request) => request(axios, basePath));
         },
     };
@@ -358,7 +383,7 @@ export interface CustomersApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    customersCreate(requestParameters: CustomersApiCustomersCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    customersCreate(requestParameters: CustomersApiCustomersCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Customer>;
 
     /**
      * 
@@ -367,15 +392,16 @@ export interface CustomersApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    customersGet(requestParameters: CustomersApiCustomersGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    customersGet(requestParameters: CustomersApiCustomersGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Customer>;
 
     /**
      * 
      * @summary List customers
+     * @param {CustomersApiCustomersListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    customersList(options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    customersList(requestParameters?: CustomersApiCustomersListRequest, options?: RawAxiosRequestConfig): AxiosPromise<CustomerList>;
 
     /**
      * 
@@ -393,7 +419,7 @@ export interface CustomersApiInterface {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    customersUpdate(requestParameters: CustomersApiCustomersUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    customersUpdate(requestParameters: CustomersApiCustomersUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Customer>;
 
 }
 
@@ -409,6 +435,15 @@ export interface CustomersApiCustomersCreateRequest {
  */
 export interface CustomersApiCustomersGetRequest {
     readonly id: string
+}
+
+/**
+ * Request parameters for customersList operation in CustomersApi.
+ */
+export interface CustomersApiCustomersListRequest {
+    readonly limit?: any
+
+    readonly page?: any
 }
 
 /**
@@ -456,11 +491,12 @@ export class CustomersApi extends BaseAPI implements CustomersApiInterface {
     /**
      * 
      * @summary List customers
+     * @param {CustomersApiCustomersListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public customersList(options?: RawAxiosRequestConfig) {
-        return CustomersApiFp(this.configuration).customersList(options).then((request) => request(this.axios, this.basePath));
+    public customersList(requestParameters: CustomersApiCustomersListRequest = {}, options?: RawAxiosRequestConfig) {
+        return CustomersApiFp(this.configuration).customersList(requestParameters.limit, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
