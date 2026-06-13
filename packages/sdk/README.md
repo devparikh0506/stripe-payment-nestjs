@@ -1,101 +1,189 @@
-## paykit@1.0.0
+# @dev_parikh/paykit
 
-This generator creates TypeScript/JavaScript client that utilizes [axios](https://github.com/axios/axios). The generated Node module can be used in the following environments:
+Typed TypeScript/JavaScript client for the **paykit** payment service — a standalone, Stripe-backed payment microservice. Generated from the service's OpenAPI spec with [OpenAPI Generator](https://openapi-generator.tech/) (`typescript-axios`), so every endpoint and request body is fully typed.
 
-Environment
-* Node.js
-* Webpack
-* Browserify
+> The SDK is a thin, typed wrapper over the service's REST API. It contains **no Stripe logic** — it calls **your** deployed paykit service, which owns Stripe, the database, and webhooks. One published SDK works against any deployment; you supply the URL and key at runtime.
 
-Language level
-* ES5 - you must have a Promises/A+ library installed
-* ES6
+## Installation
 
-Module system
-* CommonJS
-* ES6 module system
-
-It can be used in both TypeScript and JavaScript. In TypeScript, the definition will be automatically resolved via `package.json`. ([Reference](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html))
-
-### Building
-
-To build and compile the typescript sources to javascript use:
-```
-npm install
-npm run build
+```bash
+npm install @dev_parikh/paykit
 ```
 
-### Publishing
+`axios` is installed automatically as a dependency.
 
-First build the package then run `npm publish`
+## Quick start
 
-### Consuming
+```ts
+import { Configuration, CustomersApi } from '@dev_parikh/paykit';
 
-navigate to the folder of your consuming project and run one of the following commands.
+const config = new Configuration({
+  basePath: process.env.PAYKIT_URL, // your deployment, e.g. https://payments.acme.internal
+  baseOptions: {
+    // The service authenticates every request with the x-api-key header.
+    headers: { 'x-api-key': process.env.PAYKIT_API_KEY },
+  },
+});
 
-_published:_
+const customers = new CustomersApi(config);
 
+const { data: customer } = await customers.customersCreate({
+  createCustomerDto: { email: 'jane@acme.com', name: 'Jane Doe' },
+});
 ```
-npm install paykit@1.0.0 --save
+
+### Authentication — read this
+
+The `x-api-key` header **must** be set via `baseOptions.headers` as shown above. Do **not** rely on the `apiKey` field of `Configuration` — the current OpenAPI spec doesn't mark operations as secured, so that field is ignored and no key is sent. Setting the header in `baseOptions` applies it to every request and always works. (See [Known limitations](#known-limitations).)
+
+## Configuration
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `basePath` | `string` | Base URL of your paykit deployment (no trailing slash) |
+| `baseOptions.headers` | `object` | Per-request axios options; set `x-api-key` here |
+
+A single instance can be shared across all API classes:
+
+```ts
+import {
+  Configuration,
+  CustomersApi, PlansApi, PaymentsApi, SubscriptionsApi, InvoicesApi,
+} from '@dev_parikh/paykit';
+
+const config = new Configuration({
+  basePath: process.env.PAYKIT_URL,
+  baseOptions: { headers: { 'x-api-key': process.env.PAYKIT_API_KEY } },
+});
+
+const customers     = new CustomersApi(config);
+const plans         = new PlansApi(config);
+const payments      = new PaymentsApi(config);
+const subscriptions = new SubscriptionsApi(config);
+const invoices      = new InvoicesApi(config);
 ```
 
-_unPublished (not recommended):_
+> Each method takes a **single request-parameter object** (path params + body together) and returns an axios response — read the body from `.data`.
 
+## Usage by resource
+
+### Customers
+
+```ts
+await customers.customersCreate({
+  createCustomerDto: { email: 'jane@acme.com', name: 'Jane', phone: '+15551234567' },
+});
+
+await customers.customersList();                                  // list all
+await customers.customersGet({ id });
+await customers.customersUpdate({ id, updateCustomerDto: { name: 'Jane D.' } });
+await customers.customersRemove({ id });
 ```
-npm install PATH_TO_GENERATED_PACKAGE --save
+
+### Plans
+
+```ts
+await plans.plansCreate({
+  createPlanDto: { name: 'Pro', amount: 2000, currency: 'usd', interval: 'month' },
+});
+
+await plans.plansList();
+await plans.plansGet({ id });
+await plans.plansArchive({ id });   // prices are immutable in Stripe — archive, don't delete
 ```
 
-### Documentation for API Endpoints
+> Amounts are in the smallest currency unit — `2000` = $20.00.
 
-All URIs are relative to *http://localhost*
+### Payments
 
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*CustomersApi* | [**customersCreate**](docs/CustomersApi.md#customerscreate) | **POST** /api/v1/customers | Create a customer
-*CustomersApi* | [**customersGet**](docs/CustomersApi.md#customersget) | **GET** /api/v1/customers/{id} | Get a customer
-*CustomersApi* | [**customersList**](docs/CustomersApi.md#customerslist) | **GET** /api/v1/customers | List customers
-*CustomersApi* | [**customersRemove**](docs/CustomersApi.md#customersremove) | **DELETE** /api/v1/customers/{id} | Delete a customer
-*CustomersApi* | [**customersUpdate**](docs/CustomersApi.md#customersupdate) | **PATCH** /api/v1/customers/{id} | Update a customer
-*HealthApi* | [**healthCheck**](docs/HealthApi.md#healthcheck) | **GET** /health | 
-*InvoicesApi* | [**invoicesGet**](docs/InvoicesApi.md#invoicesget) | **GET** /api/v1/invoices/{id} | Get an invoice
-*InvoicesApi* | [**invoicesList**](docs/InvoicesApi.md#invoiceslist) | **GET** /api/v1/invoices | List invoices, optionally by customer
-*MetricsApi* | [**metricsMetrics**](docs/MetricsApi.md#metricsmetrics) | **GET** /metrics | 
-*PaymentsApi* | [**paymentsCancel**](docs/PaymentsApi.md#paymentscancel) | **POST** /api/v1/payments/{id}/cancel | Cancel an uncaptured payment
-*PaymentsApi* | [**paymentsCreate**](docs/PaymentsApi.md#paymentscreate) | **POST** /api/v1/payments | Create a payment intent
-*PaymentsApi* | [**paymentsGet**](docs/PaymentsApi.md#paymentsget) | **GET** /api/v1/payments/{id} | Get a payment
-*PaymentsApi* | [**paymentsList**](docs/PaymentsApi.md#paymentslist) | **GET** /api/v1/payments | List payments, optionally by customer
-*PaymentsApi* | [**paymentsRefund**](docs/PaymentsApi.md#paymentsrefund) | **POST** /api/v1/payments/{id}/refund | Refund a succeeded payment
-*PlansApi* | [**plansArchive**](docs/PlansApi.md#plansarchive) | **POST** /api/v1/plans/{id}/archive | Archive a plan (prices are immutable in Stripe)
-*PlansApi* | [**plansCreate**](docs/PlansApi.md#planscreate) | **POST** /api/v1/plans | Create a plan (Stripe product + price)
-*PlansApi* | [**plansGet**](docs/PlansApi.md#plansget) | **GET** /api/v1/plans/{id} | Get a plan
-*PlansApi* | [**plansList**](docs/PlansApi.md#planslist) | **GET** /api/v1/plans | List plans
-*SubscriptionsApi* | [**subscriptionsCancel**](docs/SubscriptionsApi.md#subscriptionscancel) | **DELETE** /api/v1/subscriptions/{id} | Cancel a subscription immediately
-*SubscriptionsApi* | [**subscriptionsCreate**](docs/SubscriptionsApi.md#subscriptionscreate) | **POST** /api/v1/subscriptions | Create a subscription (first charge confirmed by frontend)
-*SubscriptionsApi* | [**subscriptionsGet**](docs/SubscriptionsApi.md#subscriptionsget) | **GET** /api/v1/subscriptions/{id} | Get a subscription
-*SubscriptionsApi* | [**subscriptionsList**](docs/SubscriptionsApi.md#subscriptionslist) | **GET** /api/v1/subscriptions | List subscriptions, optionally by customer
-*WebhooksApi* | [**webhooksHandleStripeWebhook**](docs/WebhooksApi.md#webhookshandlestripewebhook) | **POST** /webhooks/stripe | 
+```ts
+const { data: intent } = await payments.paymentsCreate({
+  createPaymentDto: {
+    customerId,
+    amount: 4999,
+    currency: 'usd',
+    idempotencyKey: 'order-1234', // optional, prevents double-charges on retry
+  },
+});
 
+await payments.paymentsList();
+await payments.paymentsGet({ id });
+await payments.paymentsRefund({ id }); // refund a succeeded payment
+await payments.paymentsCancel({ id }); // cancel an uncaptured payment
+```
 
-### Documentation For Models
+### Subscriptions
 
- - [CreateCustomerDto](docs/CreateCustomerDto.md)
- - [CreatePaymentDto](docs/CreatePaymentDto.md)
- - [CreatePlanDto](docs/CreatePlanDto.md)
- - [CreateSubscriptionDto](docs/CreateSubscriptionDto.md)
- - [HealthCheck200Response](docs/HealthCheck200Response.md)
- - [HealthCheck200ResponseInfoValue](docs/HealthCheck200ResponseInfoValue.md)
- - [UpdateCustomerDto](docs/UpdateCustomerDto.md)
+```ts
+await subscriptions.subscriptionsCreate({
+  createSubscriptionDto: { customerId, planId, trialPeriodDays: 14 },
+});
 
+await subscriptions.subscriptionsList();
+await subscriptions.subscriptionsGet({ id });
+await subscriptions.subscriptionsCancel({ id }); // cancels immediately
+```
 
-<a id="documentation-for-authorization"></a>
-## Documentation For Authorization
+### Invoices
 
+```ts
+await invoices.invoicesList();
+await invoices.invoicesGet({ id });
+```
 
-Authentication schemes defined for the API:
-<a id="x-api-key"></a>
-### x-api-key
+## Error handling
 
-- **Type**: API key
-- **API key parameter name**: x-api-key
-- **Location**: HTTP header
+Non-2xx responses reject with an `AxiosError`. Inspect `response.status` and `response.data`:
 
+```ts
+import { AxiosError } from 'axios';
+
+try {
+  await customers.customersGet({ id: 'does-not-exist' });
+} catch (err) {
+  if (err instanceof AxiosError) {
+    console.error('paykit error', err.response?.status, err.response?.data);
+    // 401 → bad/missing x-api-key   404 → not found   429 → rate limited
+  }
+  throw err;
+}
+```
+
+## Full API reference
+
+Complete, auto-generated reference for every method and model:
+
+| Resource | Reference |
+|---|---|
+| Customers | [CustomersApi](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/CustomersApi.md) |
+| Plans | [PlansApi](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/PlansApi.md) |
+| Payments | [PaymentsApi](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/PaymentsApi.md) |
+| Subscriptions | [SubscriptionsApi](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/SubscriptionsApi.md) |
+| Invoices | [InvoicesApi](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/InvoicesApi.md) |
+
+Request models: [CreateCustomerDto](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/CreateCustomerDto.md) · [CreatePaymentDto](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/CreatePaymentDto.md) · [CreatePlanDto](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/CreatePlanDto.md) · [CreateSubscriptionDto](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/CreateSubscriptionDto.md) · [UpdateCustomerDto](https://github.com/devparikh0506/stripe-payment-nestjs/blob/main/packages/sdk/docs/UpdateCustomerDto.md)
+
+The `docs/` folder is regenerated from the OpenAPI spec on every build, so it always matches the live API.
+
+## Known limitations
+
+These stem from missing annotations in the service's OpenAPI spec and will be resolved as the service adds them:
+
+- **Auth isn't auto-attached** — set `x-api-key` via `baseOptions.headers` (see above). Operations don't yet declare a security requirement.
+- **Responses are untyped** — `response.data` is currently `void`/untyped because endpoints don't declare `@ApiResponse` types. Requests are fully typed; cast the response if you need a shape today.
+- **List endpoints take no typed query params** — pagination/filter params aren't in the spec yet; pass them via `baseOptions.params` if needed.
+
+## Regenerating
+
+This package is generated — do not hand-edit the `*.ts` files. After the service API changes:
+
+```bash
+cd packages/template && npm run openapi:generate && cd ../..
+openapi-generator-cli generate
+```
+
+`README.md` and `package.json` are preserved across regeneration via `.openapi-generator-ignore`.
+
+## License
+
+MIT © Dev Parikh

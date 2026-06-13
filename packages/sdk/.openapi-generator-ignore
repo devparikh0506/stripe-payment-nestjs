@@ -26,3 +26,7 @@
 # package.json carries the npm metadata (name, files allowlist, license,
 # author, repo) that the generator would otherwise overwrite with placeholders.
 package.json
+
+# Curated README with real usage examples — keep it; the generator would
+# replace it with generic boilerplate. The docs/ folder stays auto-generated.
+README.md
