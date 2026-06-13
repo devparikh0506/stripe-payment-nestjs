@@ -191,6 +191,11 @@
         "summary": "Create a customer",
         "tags": [
           "customers"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       },
       "get": {
@@ -204,6 +209,11 @@
         "summary": "List customers",
         "tags": [
           "customers"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -228,6 +238,11 @@
         "summary": "Get a customer",
         "tags": [
           "customers"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       },
       "patch": {
@@ -260,6 +275,11 @@
         "summary": "Update a customer",
         "tags": [
           "customers"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       },
       "delete": {
@@ -282,6 +302,11 @@
         "summary": "Delete a customer",
         "tags": [
           "customers"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -307,6 +332,11 @@
         "summary": "Create a plan (Stripe product + price)",
         "tags": [
           "plans"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       },
       "get": {
@@ -329,6 +359,11 @@
         "summary": "List plans",
         "tags": [
           "plans"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -353,6 +388,11 @@
         "summary": "Get a plan",
         "tags": [
           "plans"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -377,6 +417,11 @@
         "summary": "Archive a plan (prices are immutable in Stripe)",
         "tags": [
           "plans"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -402,6 +447,11 @@
         "summary": "Create a payment intent",
         "tags": [
           "payments"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       },
       "get": {
@@ -424,6 +474,11 @@
         "summary": "List payments, optionally by customer",
         "tags": [
           "payments"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -448,6 +503,11 @@
         "summary": "Get a payment",
         "tags": [
           "payments"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -472,6 +532,11 @@
         "summary": "Cancel an uncaptured payment",
         "tags": [
           "payments"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -496,6 +561,11 @@
         "summary": "Refund a succeeded payment",
         "tags": [
           "payments"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -521,6 +591,11 @@
         "summary": "Create a subscription (first charge confirmed by frontend)",
         "tags": [
           "subscriptions"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       },
       "get": {
@@ -543,6 +618,11 @@
         "summary": "List subscriptions, optionally by customer",
         "tags": [
           "subscriptions"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -567,6 +647,11 @@
         "summary": "Get a subscription",
         "tags": [
           "subscriptions"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       },
       "delete": {
@@ -589,6 +674,11 @@
         "summary": "Cancel a subscription immediately",
         "tags": [
           "subscriptions"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -650,6 +740,11 @@
         "summary": "List invoices, optionally by customer",
         "tags": [
           "invoices"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     },
@@ -674,6 +769,11 @@
         "summary": "Get an invoice",
         "tags": [
           "invoices"
+        ],
+        "security": [
+          {
+            "x-api-key": []
+          }
         ]
       }
     }
