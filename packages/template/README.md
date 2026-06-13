@@ -143,3 +143,27 @@ npm test                 # unit tests
 npm run build            # production build
 npm run migration:run    # apply pending migrations
 ```
+
+## Generating a client SDK
+
+The full API is described by an OpenAPI spec — served live at `/api/docs` and
+exportable to a file **without booting the app** (no Postgres or Redis needed,
+so it runs in CI):
+
+```bash
+npm run openapi:generate     # writes openapi.json
+```
+
+Feed that spec to [OpenAPI Generator](https://openapi-generator.tech/)
+(requires Java 11+) to produce a typed client in any language:
+
+```bash
+# TypeScript (axios) — the generator behind this repo's @dev_parikh/paykit SDK
+openapi-generator-cli generate -i openapi.json -g typescript-axios -o ./client
+
+# Python, Go, Java, ... — just swap the -g generator
+openapi-generator-cli generate -i openapi.json -g python -o ./client-python
+```
+
+Protected endpoints declare the `x-api-key` security scheme, so generated
+clients attach the key from their own configuration automatically.

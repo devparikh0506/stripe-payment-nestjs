@@ -82,12 +82,45 @@ Stripe         →  POST /webhooks/stripe (signed event) →  this service
 Subscriptions work the same way: state changes (renewals, failures,
 cancellations) arrive as webhooks and sync the local mirror automatically.
 
+## Client SDK
+
+TypeScript/JavaScript consumers don't have to hand-write HTTP calls — install
+the generated client, **[`@dev_parikh/paykit`](packages/sdk/README.md)**, for
+typed methods over every endpoint:
+
+```bash
+npm i @dev_parikh/paykit
+```
+
+```ts
+import { Configuration, CustomersApi } from '@dev_parikh/paykit';
+
+const config = new Configuration({
+  basePath: process.env.PAYKIT_URL,    // your deployment
+  apiKey: process.env.PAYKIT_API_KEY,  // sent automatically as x-api-key
+});
+
+const { data } = await new CustomersApi(config).customersCreate({
+  createCustomerDto: { email: 'jane@acme.com', name: 'Jane' },
+});
+```
+
+The SDK is deployment-agnostic — one published package works against any
+deployment; you supply the URL and key at runtime. Full usage in the
+[SDK README](packages/sdk/README.md).
+
+**Other languages:** the service exports its OpenAPI spec, so you can generate
+a Python, Go, or any-language client the same way — see
+[generating a client SDK](packages/template/README.md#generating-a-client-sdk).
+
 ## Repository layout
 
 ```
 packages/
 ├── cli/        the npx scaffolder (published to npm as create-stripe-nest-app)
-└── template/   the NestJS service that gets scaffolded
+├── template/   the NestJS service that gets scaffolded
+└── sdk/        typed TypeScript client generated from the service's OpenAPI
+                spec (published to npm as @dev_parikh/paykit)
 ```
 
 ## Developing from source
